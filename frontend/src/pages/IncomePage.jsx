@@ -7,6 +7,7 @@ import Amount from '../assets/component/Amount'
 import IncomeSelect from '../assets/component/IncomeSelect'
 import CalanderDate from '../assets/component/CalanderDate'
 import DashBoard from '../assets/component/DashBoard'
+import AddButton from '../assets/component/AddButton'
 
 
 
@@ -27,7 +28,8 @@ const IncomePage = () => {
                 <h1>Add Income</h1>
                 <p className='text-center font-[var(--font-poppins)] text-white text-white'>Track your earnings and income sources</p>
                 <div className='movie-card mt-4'>
-                    <IncomeDetails text = "Title"/>
+                    <div>
+                        <IncomeDetails text = "Title"/>
                     <Description addDescription = {addDescription} setAddDescription = {setAddDescription} />
                     <IncomeDetails text = "Amount $" />
                     <Amount incomeAmount = {incomeAmount} setIncomeAmount = {setIncomeAmount} />
@@ -35,9 +37,12 @@ const IncomePage = () => {
                     <IncomeSelect />
                     <IncomeDetails text = "Date"/>
                     <CalanderDate />
-
-
+                    </div>
+                    <div className=' flex justify-center'>
+                        <AddButton text = "Add Income" />
+                    </div>
                 </div>
+                
             </header>
         </div>
     </div>

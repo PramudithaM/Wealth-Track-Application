@@ -7,6 +7,7 @@ import ExpenseSelect from '../assets/component/ExpenseSelect'
 import ExpneseCalander from '../assets/component/ExpneseCalander'
 import ExpenseSourceSelect from '../assets/component/ExpenseSourceSelect'
 import ExpenseNotes from '../assets/component/ExpenseNotes'
+import AddButton from '../assets/component/AddButton'
 
 const ExpensesPage = () => {
 
@@ -20,8 +21,9 @@ const ExpensesPage = () => {
             <header>
                 <h1>Add Expenses</h1>
                 <p className='text-center font-[var(--font-poppins)] text-white text-white'>Track your expenses and  sources</p>
-                <div className='movie-card mt-4'>
-                    <ExpenseDetails text= "Title" />
+                <div className='movie-card mt-3'>
+                    <div>
+                        <ExpenseDetails text= "Title" />
                     <ExpenseTitle title={title} setTitle={setTitle} />
                     <ExpenseDetails text= "Amount ($)" />
                     <ExpenseAmount expenseAmount = {expenseAmount} setExpenseAmount = {setExpenseAmount} />
@@ -33,6 +35,10 @@ const ExpensesPage = () => {
                     <ExpenseSourceSelect />
                     <ExpenseDetails text= "Note(Optional)" />
                     <ExpenseNotes notes={notes} setNotes ={setNotes} />
+                    </div>
+                    <div className=' flex justify-center'>
+                        <AddButton  text = "Add Expenses"/>
+                    </div>
                 </div>
             </header>
 

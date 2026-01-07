@@ -1,13 +1,18 @@
 import React from 'react'
 
-const EmailAdd = ({emailAddress,setEmailAddress}) => {
+
+
+
+const EmailAdd = ({email,setEmail}) => {
+
+ 
   return (
     <div className='search mt-1'>
         <div>
-            <input type='text' 
+            <input type='email' 
             placeholder='Enter your Email Address' 
-            value={emailAddress} 
-            onChange={(e) => setEmailAddress(e.target.value)} className='text-sm'/>
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} className='text-sm'/>
         </div>
     </div>
   )

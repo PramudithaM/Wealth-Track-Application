@@ -25,10 +25,11 @@ const data = [
 
 const Home = () => {
   return (
-    <div className='pattern' >
+    <div className='bg-hero-pattern w-full h-screen bg-center bg-cover absolute top-0 left-0' >
       <DashBar />
-      <div className='wrapper  flex items-center justify-center '>
-        <div className='w-full flex justify-between gap-19'>
+      <div className='flex justify-center items-center'>
+        <div className='px-5  xs:p-10 max-w-7xl mx-auto flex flex-col relative z-10  flex items-center justify-center '>
+        <div className='w-full flex justify-between gap-14'>
             <div className='w-190 bg-light-100/8 px-5 py-5 border rounded-lg'>
               <div>
                 <span className='text-white'>Main Account Balance</span>
@@ -195,6 +196,7 @@ const Home = () => {
 
         </div>
 
+      </div>
       </div>
     </div>
   )
