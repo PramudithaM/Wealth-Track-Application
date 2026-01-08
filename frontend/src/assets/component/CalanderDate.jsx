@@ -8,7 +8,7 @@ const CalanderDate = () => {
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <div className="relative w-64 w-full max-w-sm text-white mb-3 mt-2 ">
+    <div className="relative w-64 w-full  text-white mb-3 mt-2 ">
       {/* Input Button */}
       <button
         onClick={() => setOpen(!open)}

@@ -12,6 +12,7 @@ import {
 import IncomeExpensesChart from '../assets/component/IncomeExpensesChart';
 import DashBoard from '../assets/component/DashBoard';
 import PiChart from '../assets/component/PiChart';
+import HoverCard from '../assets/component/HoverCard';
 
 const data = [
   { month: "Jan", income: 4000, expenses: 2500 },
@@ -28,9 +29,11 @@ const Home = () => {
     <div className='bg-hero-pattern w-full h-screen bg-center bg-cover absolute top-0 left-0' >
       <DashBar />
       <div className='flex justify-center items-center'>
-        <div className='px-5  xs:p-10 max-w-7xl mx-auto flex flex-col relative z-10  flex items-center justify-center '>
-        <div className='w-full flex justify-between gap-14'>
-            <div className='w-190 bg-light-100/8 px-5 py-5 border rounded-lg'>
+        <div className='px-5  xs:p-10 max-w-full mx-auto flex flex-col relative z-10  flex items-center justify-center '>
+        <div className='w-full flex justify-between '>
+            <div className='w-120 bg-light-100/8 px-5 py-5 border rounded-lg shadow-md 
+                    transition-all duration-300 
+                    hover:shadow-xl hover:scale-105'>
               <div>
                 <span className='text-white'>Main Account Balance</span>
               </div>
@@ -41,19 +44,19 @@ const Home = () => {
                 <span className='text-white mt-5'>-----------------------------------------------------------------------</span>
               </div>
               <div className='mt-13'>
-                <div className='text-white text-xs flex justify-between'>
+                <div className='text-white text-xs flex justify-between pt-2'>
                   <span>Current Cash Balance</span>
                   <span>$125,000</span>
                 </div>
-                <div className='text-white text-xs flex justify-between'>
+                <div className='text-white text-xs flex justify-between pt-2'>
                   <span>Fix Deposite balance</span>
                   <span>$130,000</span>
                 </div>
-                <div className='text-white text-xs flex justify-between'>
+                <div className='text-white text-xs flex justify-between pt-2'>
                   <span>Pocket Money</span>
                   <span>$100,000</span>
                 </div>
-                <div className='text-white text-xs flex justify-between'>
+                <div className='text-white text-xs flex justify-between pt-2'>
                   <span>Investments</span>
                   <span>$1,500,000</span>
                 </div>
@@ -64,9 +67,11 @@ const Home = () => {
 
             </div>
         </div>
-        <div className='w-full flex justify-between gap-10'>
+        <div className='w-full flex justify-between gap-13'>
           <div>
-          <div className='w-80 bg-light-100/8 px-2 py-5 border rounded-lg mt-10'>
+          <div className='w-80 bg-light-100/8 px-2 py-5 border rounded-lg mt-10 shadow-md 
+                    transition-all duration-300 
+                    hover:shadow-xl hover:scale-105'>
             <div>
               <div className='flex justify-between items-center'>
                 <div >
@@ -125,7 +130,9 @@ const Home = () => {
 
 
         <div>
-          <div className='w-80 bg-red-400/18 px-2 py-5 border rounded-lg mt-10'>
+          <div className='w-80 bg-red-400/18 px-2 py-5 border rounded-lg mt-10 shadow-md 
+                    transition-all duration-300 
+                    hover:shadow-xl hover:scale-105'>
             <div>
               <div className='flex justify-between items-center'>
                 <div >
@@ -141,9 +148,9 @@ const Home = () => {
                 </div> 
               </div>
             </div>
-            <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-1'>
+            <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-1 '>
               <div>
-                <span className='text-white text-[11px]'>Income Scource</span>
+                <span className='text-white text-[11px]'>Expenses</span>
                 <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-5'>
                   <div className='flex justify-between text-white text-xs'>
                     <span>Food & Drink</span>
@@ -188,7 +195,10 @@ const Home = () => {
            <div >
             <span className='text-white flex justify-center '>Analytics</span>
            </div>
-           <div><PiChart/></div>
+           <div className='shadow-md 
+                    transition-all duration-300 
+                    hover:shadow-xl hover:scale-105'><PiChart/></div>
+          
            
               
           </div>

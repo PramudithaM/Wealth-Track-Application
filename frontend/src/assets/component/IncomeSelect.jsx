@@ -23,7 +23,7 @@ const IncomeSelect = () => {
     };
   return (
     
-        <div className="w-full max-w-sm text-white mb-3 mt-2">
+        <div className="w-full  text-white mb-3 mt-2">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="w-full flex items-center justify-between px-5 py-4 bg-light-100/5 border border-slate-700 rounded-xl hover:border-indigo-500 transition"

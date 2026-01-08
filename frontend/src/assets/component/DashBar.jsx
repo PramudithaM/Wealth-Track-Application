@@ -1,9 +1,22 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
+
 
 const DashBar = () => {
 
   const navigate = useNavigate();
+  const auth = getAuth();
+
+  const handleLogout = async () => {
+  try {
+    await signOut(auth);
+    navigate("/login"); // change to your login route
+  } catch (error) {
+    console.error("Logout error:", error.message);
+  }
+};
+
   return (
     <div className="w-full bg-light-100/5 max-w-full h-17 flex items-center justify-between pl-10">
       <div className="flex  items-center gap-[1px]">
@@ -11,12 +24,24 @@ const DashBar = () => {
         <span className="flex text-lg font-semibold text-white ml-">Budget App</span>
       </div>
       <div className="flex justify-center gap-30 ml-30">
-        <span onClick={() => navigate("/home-page")}className="text-light-200 cursor-pointer">Dashboard</span>
-        <span onClick={() => navigate("/income-page")} className="text-light-200 cursor-pointer">Income</span>
-        <span onClick={() => navigate("/expenses-page")} className="text-light-200 cursor-pointer">Expenses</span>
-        <span onClick={() => navigate("/transaction-page")} className="text-light-200 cursor-pointer">Transaction</span>
-        <span onClick={() => navigate("/analytics")} className="text-light-200 cursor-pointer">Analytics</span>
-        <span onClick={() => navigate("/about-us")} className="text-light-200 cursor-pointer mr-40">About Us</span>
+        <span onClick={() => navigate("/home-page")}className="text-light-200 
+                  hover:text-blue-500 
+                  transition-colors duration-300 cursor-pointer">Dashboard</span>
+        <span onClick={() => navigate("/income-page")} className="text-light-200 
+                  hover:text-blue-500 
+                  transition-colors duration-300 cursor-pointer">Income</span>
+        <span onClick={() => navigate("/expenses-page")} className="text-light-200 
+                  hover:text-blue-500 
+                  transition-colors duration-300 cursor-pointer">Expenses</span>
+        <span onClick={() => navigate("/transaction-page")} className="text-light-200 
+                  hover:text-blue-500 
+                  transition-colors duration-300 cursor-pointer">Transaction</span>
+        <span onClick={() => navigate("/analytics")} className="text-light-200 
+                  hover:text-blue-500 
+                  transition-colors duration-300 cursor-pointer">Analytics</span>
+        <span onClick={() => navigate("/about-us")} className="text-light-200 
+                  hover:text-blue-500 
+                  transition-colors duration-300 cursor-pointer mr-40">About Us</span>
       </div>
 
       <div className="flex justify-center pr-10">
@@ -36,9 +61,14 @@ const DashBar = () => {
             
           </div>
           <div>
-            <button className="px-4 py-2 bg-gray-500 text-white rounded-lg">
-            Logout
-          </button>
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md 
+                    transition-all duration-300 
+                    hover:shadow-xl hover:scale-105">
+              Logout
+            </button>
+
           </div>
           
         

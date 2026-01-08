@@ -19,7 +19,9 @@ import { BarChart,
 
 const IncomeExpensesChart = () => {
   return (
-    <div className='w-[700px] h-[240px] border  rounded-xl  '>
+    <div className='w-[850px] h-[240px] border  rounded-xl shadow-md 
+                    transition-all duration-300 
+                    hover:shadow-xl hover:scale-105 '>
         <h2 className='text-lg text-black font-bold  flex justify-center  '>
         Income vs Expenses
         </h2>

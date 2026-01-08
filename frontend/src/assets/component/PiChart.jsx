@@ -19,7 +19,7 @@ const COLORS = ["#2f00ffff", "#ff0000ff", "#f97316", "#ef4444"];
 
 const PiChart = () => {
   return (
-    <div className="w-full h-85 bg-light-100/5 rounded-xl shadow ">
+    <div className="w-full h-85  rounded-xl shadow ">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
