@@ -1,12 +1,15 @@
 import React from 'react'
-import { useState } from 'react'
 
-const FirstName = () => {
-    const [firstName,setFirstName] =useState('');
+const FirstName = ({addFirstName,setAddFirstName}) => {
   return (
-    <div>
-            <input type='text' placeholder='Enter your Password' value={PassWord} onChange={(e) => setPassWord(e.target.value)} className='text-sm'/>
+    <div  className='w-full bg-light-100/5 px-2 py-3 text-sm mb-2 rounded-lg mt-1 max-w-3xl mx-auto '>
+        <div>
+            <input type='text' 
+            placeholder='First Name' 
+            value={addFirstName} 
+            onChange={(e) => setAddFirstName(e.target.value)} className='w-full bg-transparent  sm:pr-2 pl-2  text-gray-200 placeholder-light-200 outline-hidden'/>
         </div>
+    </div>
   )
 }
 
