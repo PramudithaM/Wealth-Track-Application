@@ -13,18 +13,33 @@ import IncomeExpensesChart from '../assets/component/IncomeExpensesChart';
 import DashBoard from '../assets/component/DashBoard';
 import PiChart from '../assets/component/PiChart';
 import HoverCard from '../assets/component/HoverCard';
+import { useEffect, useState } from "react";
+import api from "../api/api";
 
-const data = [
-  { month: "Jan", income: 4000, expenses: 2500 },
-  { month: "Feb", income: 3000, expenses: 2000 },
-  { month: "Mar", income: 5000, expenses: 3500 },
-  { month: "Apr", income: 4200, expenses: 3000 },
-  { month: "May", income: 6100, expenses: 4000 },
-  { month: "June", income: 21000, expenses: 10000},
-];
 
 
 const Home = () => {
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    api.get("/income")
+      .then(res => {
+        const grouped = {};
+
+        res.data.forEach(item => {
+          const month = new Date(item.date).toLocaleString("default", { month: "short" });
+
+          if (!grouped[month]) {
+            grouped[month] = { month, income: 0 };
+          }
+
+          grouped[month].income += Number(item.amount);
+        });
+
+        setChartData(Object.values(grouped));
+      })
+      .catch(err => console.error(err));
+  }, []);
   return (
     <div className='bg-hero-pattern w-full h-screen bg-center bg-cover absolute top-0 left-0' >
       <DashBar />
@@ -63,7 +78,7 @@ const Home = () => {
               </div>
             </div>
             <div className=''>
-              <IncomeExpensesChart />
+              <IncomeExpensesChart data = {chartData}/>
 
             </div>
         </div>

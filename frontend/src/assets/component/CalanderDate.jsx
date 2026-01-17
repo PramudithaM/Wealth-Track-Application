@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 
-const CalanderDate = () => {
+const CalanderDate = ({date,setDate}) => {
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
 

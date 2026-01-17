@@ -3,10 +3,10 @@ import { useState } from 'react'
 
 
 
-const IncomeSelect = () => {
+const IncomeSelect = ( {selected,setSelected}) => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState("Choose Your Income Source");
+    
 
     const options = [
     { id: 1, label: "Salary/Wages", desc: "Monthly/Weekly or Daily Salary" },
@@ -28,7 +28,7 @@ const IncomeSelect = () => {
           onClick={() => setIsOpen(!isOpen)}
           className="w-full flex items-center justify-between px-5 py-4 bg-light-100/5 border border-slate-700 rounded-xl hover:border-indigo-500 transition"
         >
-          <span>{selected}</span>
+          <span>{selected || "Chose category"}</span>
           <span
             className={`transition-transform duration-300 ${
               isOpen ? "rotate-180" : ""

@@ -7,8 +7,9 @@ import ExpenseSelect from '../assets/component/ExpenseSelect'
 import ExpneseCalander from '../assets/component/ExpneseCalander'
 import ExpenseSourceSelect from '../assets/component/ExpenseSourceSelect'
 import ExpenseNotes from '../assets/component/ExpenseNotes'
-import AddButton from '../assets/component/AddButton'
+import AddButton from '../assets/component/AddIncomeButton'
 import HoverCard from '../assets/component/HoverCard'
+import AddExpenseButton from '../assets/component/AddExpenseButton'
 
 const ExpensesPage = () => {
 
@@ -38,7 +39,7 @@ const ExpensesPage = () => {
                     <ExpenseNotes notes={notes} setNotes ={setNotes} />
                     </div>
                     <div className=' flex justify-center'>
-                        <AddButton  text = "Add Expenses"/>
+                        <AddExpenseButton />
                     </div>
                     
                 </div>

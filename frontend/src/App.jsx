@@ -25,6 +25,7 @@ const App = () => {
       <Route path="/expenses-page" element={<ExpensesPage/>} />
       <Route path="/transaction-page" element={<TransactionPage/>} />
       
+      
     </Routes>
   );
 }
