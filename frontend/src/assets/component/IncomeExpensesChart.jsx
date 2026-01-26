@@ -19,7 +19,7 @@ const IncomeExpensesChart = ({ data }) => {
   ]
 
   return (
-    <div className='w-[850px] h-[240px] border  rounded-xl shadow-md 
+    <div className='w-[850px] h-[380px] border  rounded-xl shadow-md 
                     transition-all duration-300 
                     hover:shadow-xl hover:scale-105 '>
         <h2 className='text-lg text-black font-bold  flex justify-center  '>

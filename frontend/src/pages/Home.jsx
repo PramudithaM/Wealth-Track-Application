@@ -16,6 +16,7 @@ import HoverCard from '../assets/component/HoverCard';
 import { getAllIncomes } from '../services/incomeService'
 import { getAllExpenses } from '../services/expenseService'
 import { auth } from '../firebase'
+import AccountCard from '../assets/component/AccountCard';
 
 const data = [
   { month: "Jan", income: 4000, expenses: 2500 },
@@ -33,6 +34,7 @@ const Home = () => {
   const [incomes, setIncomes] = useState([])
   const [expenses, setExpenses] = useState([])
   const [loading, setLoading] = useState(true)
+  
 
   const fetchData = async () => {
     setLoading(true)
@@ -86,37 +88,7 @@ const Home = () => {
       <div className='flex justify-center items-center'>
         <div className='px-5  xs:p-10 max-w-full mx-auto flex flex-col relative z-10  flex items-center justify-center '>
         <div className='w-full flex justify-between '>
-            <div className='w-120 bg-light-100/8 px-5 py-5 border rounded-lg shadow-md 
-                    transition-all duration-300 
-                    hover:shadow-xl hover:scale-105'>
-              <div>
-                <span className='text-white'>Main Account Balance</span>
-              </div>
-              <div>
-                <span className='text-white text-xl'>${(totalIncome - totalExpense).toLocaleString()}</span>
-              </div>
-              <div>
-                <span className='text-white mt-5'>-----------------------------------------------------------------------</span>
-              </div>
-              <div className='mt-13'>
-                <div className='text-white text-xs flex justify-between pt-2'>
-                  <span>Current Cash Balance</span>
-                  <span>${totalIncome.toLocaleString()}</span>
-                </div>
-                <div className='text-white text-xs flex justify-between pt-2'>
-                  <span>Fix Deposite balance</span>
-                  <span>${totalExpense.toLocaleString()}</span>
-                </div>
-                <div className='text-white text-xs flex justify-between pt-2'>
-                  <span>Pocket Money</span>
-                  <span>$100,000</span>
-                </div>
-                <div className='text-white text-xs flex justify-between pt-2'>
-                  <span>Investments</span>
-                  <span>$1,500,000</span>
-                </div>
-              </div>
-            </div>
+            <div><AccountCard/></div>
             <div className=''>
               <IncomeExpensesChart data={chartData} />
 
