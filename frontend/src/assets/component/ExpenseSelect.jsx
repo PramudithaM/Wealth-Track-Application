@@ -3,10 +3,9 @@ import { useState } from 'react'
 
 
 
-const ExpenseSelect = () => {
+const ExpenseSelect = ({ value, onChange }) => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState("Choose Your Income Source");
 
     const options = [
     { id: 1, label: "Food & Drink", desc: "Eat Out, groceries" },
@@ -18,7 +17,7 @@ const ExpenseSelect = () => {
   ];
 
     const handleSelect = (option) => {
-        setSelected(option.label);
+        onChange(option.label);
         setIsOpen(false);
 
     };
@@ -29,7 +28,7 @@ const ExpenseSelect = () => {
           onClick={() => setIsOpen(!isOpen)}
           className="w-full flex items-center justify-between px-5 py-4 bg-light-100/5 border border-slate-700 rounded-xl hover:border-indigo-500 transition"
         >
-          <span>{selected}</span>
+          <span>{value || "Choose Your Expense Category"}</span>
           <span
             className={`transition-transform duration-300 ${
               isOpen ? "rotate-180" : ""
@@ -46,14 +45,14 @@ const ExpenseSelect = () => {
                 <button 
                     key={option.id}
                     onClick={() => handleSelect(option)}
-                    className={`w-full px-5 py-4 text-left flex justify-between items-center hover:bg-indigo-500/10 transition ${selected === option.label ? "bg-indigo-500/20" : ""
+                    className={`w-full px-5 py-4 text-left flex justify-between items-center hover:bg-indigo-500/10 transition ${value === option.label ? "bg-indigo-500/20" : ""
               }`}>
                     <div>
                         <p className='font-medium'>{option.label}</p>
                         <p className='text-sm text-slate-400'>{option.desc}</p>
                     </div>
 
-                    {selected === option.label && (
+                    {value === option.label && (
                         <span className='text-indigo-400'>✔</span>
                     )}
                 </button>

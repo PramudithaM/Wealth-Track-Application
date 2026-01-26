@@ -9,11 +9,11 @@ const firebaseConfig = {
   apiKey: "AIzaSyBLt7kNXeC9ka-D6VV5f0hLX3e22Q0xbWE",
   authDomain: "capital-sync-5580b.firebaseapp.com",
   projectId: "capital-sync-5580b",
-  storageBucket: "capital-sync-5580b.appspot.com",
+  storageBucket: "capital-sync-5580b.firebasestorage.app",
   messagingSenderId: "267105315056",
   appId: "1:267105315056:web:ac5983acc357ebebf6ba35",
   measurementId: "G-3BG554ZM0E"
-};
+};;
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

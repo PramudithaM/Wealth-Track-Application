@@ -9,10 +9,25 @@ import Aboutus from './pages/Aboutus';
 import Analytics from './pages/Analytics';
 import ExpensesPage from './pages/ExpensesPage';
 import TransactionPage from './pages/TransactionPage';
-
+import { useEffect, useState } from 'react';
 
 
 const App = () => {
+
+  const [data, setData] = useState(null);
+  const API = import.meta.env.VITE_API_URL || '';
+
+  useEffect(() => {
+    const url = API ? `${API}/` : '/api/';
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((result) => setData(result))
+      .catch((err) => console.error('Failed to load root:', err));
+  }, [API]);
+  
   return (
     <Routes>
       <Route path="/" element={<Starting />} />
@@ -24,7 +39,6 @@ const App = () => {
       <Route path="/analytics" element={<Analytics/>} />
       <Route path="/expenses-page" element={<ExpensesPage/>} />
       <Route path="/transaction-page" element={<TransactionPage/>} />
-      
       
     </Routes>
   );

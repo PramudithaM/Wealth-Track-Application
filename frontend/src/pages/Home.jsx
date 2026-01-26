@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DashBar from '../assets/component/DashBar'
 import {
   BarChart,
@@ -13,33 +13,73 @@ import IncomeExpensesChart from '../assets/component/IncomeExpensesChart';
 import DashBoard from '../assets/component/DashBoard';
 import PiChart from '../assets/component/PiChart';
 import HoverCard from '../assets/component/HoverCard';
-import { useEffect, useState } from "react";
-import api from "../api/api";
+import { getAllIncomes } from '../services/incomeService'
+import { getAllExpenses } from '../services/expenseService'
+import { auth } from '../firebase'
+
+const data = [
+  { month: "Jan", income: 4000, expenses: 2500 },
+  { month: "Feb", income: 3000, expenses: 2000 },
+  { month: "Mar", income: 5000, expenses: 3500 },
+  { month: "Apr", income: 4200, expenses: 3000 },
+  { month: "May", income: 6100, expenses: 4000 },
+  { month: "June", income: 21000, expenses: 10000},
+];
 
 
+const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 const Home = () => {
-  const [chartData, setChartData] = useState([]);
+  const [incomes, setIncomes] = useState([])
+  const [expenses, setExpenses] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchData = async () => {
+    setLoading(true)
+    try {
+      const [incRes, expRes] = await Promise.all([getAllIncomes(), getAllExpenses()])
+      setIncomes(Array.isArray(incRes) ? incRes : [])
+      setExpenses(Array.isArray(expRes) ? expRes : [])
+    } catch (err) {
+      console.error('Error fetching incomes/expenses', err)
+      setIncomes([])
+      setExpenses([])
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    api.get("/income")
-      .then(res => {
-        const grouped = {};
+    const unsub = auth.onAuthStateChanged((user) => {
+      if (user) fetchData()
+      else {
+        setIncomes([])
+        setExpenses([])
+        setLoading(false)
+      }
+    })
+    return () => unsub()
+  }, [])
 
-        res.data.forEach(item => {
-          const month = new Date(item.date).toLocaleString("default", { month: "short" });
+  // compute totals and monthly series for charts
+  const totalIncome = incomes.reduce((s, i) => s + Number(i.amount || 0), 0)
+  const totalExpense = expenses.reduce((s, e) => s + Number(e.amount || 0), 0)
 
-          if (!grouped[month]) {
-            grouped[month] = { month, income: 0 };
-          }
+  const aggregateByMonth = (items) => {
+    const months = Array(12).fill(0)
+    items.forEach((it) => {
+      const d = it.date ? new Date(it.date) : null
+      const m = d instanceof Date && !isNaN(d) ? d.getMonth() : null
+      if (m !== null) months[m] += Number(it.amount || 0)
+    })
+    return months
+  }
 
-          grouped[month].income += Number(item.amount);
-        });
+  const incMonths = aggregateByMonth(incomes)
+  const expMonths = aggregateByMonth(expenses)
 
-        setChartData(Object.values(grouped));
-      })
-      .catch(err => console.error(err));
-  }, []);
+  const chartData = monthNames.map((m, idx) => ({ month: m, income: incMonths[idx], expenses: expMonths[idx] }))
+
   return (
     <div className='bg-hero-pattern w-full h-screen bg-center bg-cover absolute top-0 left-0' >
       <DashBar />
@@ -53,7 +93,7 @@ const Home = () => {
                 <span className='text-white'>Main Account Balance</span>
               </div>
               <div>
-                <span className='text-white text-xl'>$125,000,000</span>
+                <span className='text-white text-xl'>${(totalIncome - totalExpense).toLocaleString()}</span>
               </div>
               <div>
                 <span className='text-white mt-5'>-----------------------------------------------------------------------</span>
@@ -61,11 +101,11 @@ const Home = () => {
               <div className='mt-13'>
                 <div className='text-white text-xs flex justify-between pt-2'>
                   <span>Current Cash Balance</span>
-                  <span>$125,000</span>
+                  <span>${totalIncome.toLocaleString()}</span>
                 </div>
                 <div className='text-white text-xs flex justify-between pt-2'>
                   <span>Fix Deposite balance</span>
-                  <span>$130,000</span>
+                  <span>${totalExpense.toLocaleString()}</span>
                 </div>
                 <div className='text-white text-xs flex justify-between pt-2'>
                   <span>Pocket Money</span>
@@ -78,7 +118,7 @@ const Home = () => {
               </div>
             </div>
             <div className=''>
-              <IncomeExpensesChart data = {chartData}/>
+              <IncomeExpensesChart data={chartData} />
 
             </div>
         </div>
@@ -202,9 +242,6 @@ const Home = () => {
               
           </div>
         </div>
-
-
-
         <div>
           <div className='w-160 bg-light-100/8 px-2 py-5 border rounded-lg mt-10  justify-center'>
            <div >
@@ -212,10 +249,7 @@ const Home = () => {
            </div>
            <div className='shadow-md 
                     transition-all duration-300 
-                    hover:shadow-xl hover:scale-105'><PiChart/></div>
-          
-           
-              
+                    hover:shadow-xl hover:scale-105'><PiChart/></div>            
           </div>
         </div>
 

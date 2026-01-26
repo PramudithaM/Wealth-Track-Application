@@ -8,7 +8,16 @@ import { BarChart,
     Legend
  } from 'recharts'
 
-const IncomeExpensesChart = ({data}) => {
+const IncomeExpensesChart = ({ data }) => {
+  const chartData = Array.isArray(data) && data.length ? data : [
+    {month: "Jan", income: 5000, expenses:3200},
+    {month: "Feb", income: 4200, expenses:2800},
+    {month: "Mar", income: 6100, expenses:4100},
+    {month: "Apr", income: 4800, expenses:3600},
+    {month: "May", income: 8900, expenses:5400},
+    {month: "jun", income: 12000, expenses:1100},
+  ]
+
   return (
     <div className='w-[850px] h-[240px] border  rounded-xl shadow-md 
                     transition-all duration-300 
@@ -18,7 +27,7 @@ const IncomeExpensesChart = ({data}) => {
         </h2>
 
         <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data}>
+            <BarChart data={chartData}>
                 <XAxis dataKey='month'/>
                 <YAxis />
                 <Tooltip/>
