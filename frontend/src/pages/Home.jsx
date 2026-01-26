@@ -17,6 +17,8 @@ import { getAllIncomes } from '../services/incomeService'
 import { getAllExpenses } from '../services/expenseService'
 import { auth } from '../firebase'
 import AccountCard from '../assets/component/AccountCard';
+import LatesFiveIncomes from '../assets/component/LatesFiveIncomes';
+import LatestFiveExpenses from '../assets/component/LatestFiveExpenses';
 
 const data = [
   { month: "Jan", income: 4000, expenses: 2500 },
@@ -40,6 +42,10 @@ const Home = () => {
     setLoading(true)
     try {
       const [incRes, expRes] = await Promise.all([getAllIncomes(), getAllExpenses()])
+
+      console.log("Incomes from backend:", incRes)   // <<-- THIS LINE
+    console.log("Expenses from backend:", expRes)
+    
       setIncomes(Array.isArray(incRes) ? incRes : [])
       setExpenses(Array.isArray(expRes) ? expRes : [])
     } catch (err) {
@@ -61,11 +67,30 @@ const Home = () => {
       }
     })
     return () => unsub()
-  }, [])
+  }, []);
+
+  const getTotalByCategory = (data, category) => {
+  return data
+    .filter(item => item.category === category)
+    .reduce((sum, item) => sum + Number(item.amount), 0)
+}
+// Calculate Income by Category
+const totalSalary = getTotalByCategory(incomes, "Salary/Wages")
+const totalInvestment = getTotalByCategory(incomes, "Investment")
+const  totalBusinessIncome = getTotalByCategory(incomes, "Business Income")
+
+//Calculate Expense by Category
+
+const totalFoodandDrink = getTotalByCategory(expenses, "Food & Drink")
+const totalHousing = getTotalByCategory(expenses, "Housing")
+const totalTransportation = getTotalByCategory(expenses, "Transportation") 
 
   // compute totals and monthly series for charts
+
   const totalIncome = incomes.reduce((s, i) => s + Number(i.amount || 0), 0)
   const totalExpense = expenses.reduce((s, e) => s + Number(e.amount || 0), 0)
+  const mainAccountBalance = totalIncome-totalExpense
+  
 
   const aggregateByMonth = (items) => {
     const months = Array(12).fill(0)
@@ -82,13 +107,73 @@ const Home = () => {
 
   const chartData = monthNames.map((m, idx) => ({ month: m, income: incMonths[idx], expenses: expMonths[idx] }))
 
+  //Transaction History
+  const [transactions, setTransactions] = useState([]);
+
+    const [toast, setToast] = useState(null);
+  
+    useEffect(() => {
+      fetchTransactions();
+    }, []);
+  
+    const fetchTransactions = async () => {
+      setLoading(true);
+      try {
+        const data = await getAllTransactions();
+        setTransactions(data);
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+        setToast({ 
+          message: error.message || 'Failed to load transactions', 
+          type: 'error' 
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    const formatDate = (dateString) => {
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    };
+  
+    const formatAmount = (amount, type) => {
+      const prefix = type === 'income' ? '+' : '-';
+      const color = type === 'income' ? 'text-green-400' : 'text-red-400';
+      return <span className={color}>{prefix}${parseFloat(amount).toFixed(2)}</span>;
+    };
+    // split transactions
+const transactionincomes = transactions.filter(t => t.type === 'income');
+const transactionexpenses = transactions.filter(t => t.type === 'expense');
+
+// totals
+const totaltransactionIncome = transactionincomes.reduce(
+  (sum, t) => sum + Number(t.amount || 0),
+  0
+);
+
+const totaltransactionExpense = transactionexpenses.reduce(
+  (sum, t) => sum + Number(t.amount || 0),
+  0
+);
+
+// latest 5 transactions
+const latestIncome = incomes.slice(0, 5);
+const latestExpense = expenses.slice(0, 5);
+
+
   return (
     <div className='bg-hero-pattern w-full h-screen bg-center bg-cover absolute top-0 left-0' >
       <DashBar />
       <div className='flex justify-center items-center'>
         <div className='px-5  xs:p-10 max-w-full mx-auto flex flex-col relative z-10  flex items-center justify-center '>
         <div className='w-full flex justify-between '>
-            <div><AccountCard/></div>
+            <div><AccountCard mainAccountBalance={mainAccountBalance} totalSalary={totalSalary} totalInvestment={totalInvestment} totalBusinessIncome = {totalBusinessIncome} totalFoodandDrink={totalFoodandDrink} totalHousing={totalHousing} totalTransportation= {totalTransportation}/></div>
             <div className=''>
               <IncomeExpensesChart data={chartData} />
 
@@ -96,132 +181,17 @@ const Home = () => {
         </div>
         <div className='w-full flex justify-between gap-13'>
           <div>
-          <div className='w-80 bg-light-100/8 px-2 py-5 border rounded-lg mt-10 shadow-md 
+          <LatesFiveIncomes transactionincomes = {transactionincomes} transactionexpenses = {transactionexpenses} />
+        </div>
+        <LatestFiveExpenses />
+        <div>
+          <div className='w-160 bg-dark-100/20 px-2 py-5  rounded-lg mt-10  justify-center shadow-md 
                     transition-all duration-300 
                     hover:shadow-xl hover:scale-105'>
-            <div>
-              <div className='flex justify-between items-center'>
-                <div >
-                  <div>
-                  <span className='text-white'>Income</span>
-                  </div>
-                  <div>
-                  <span className='text-xs text-white'>This Month</span>
-                  </div>
-                </div>
-                <div>
-                  <span className='text-white text-base'>$ 85,000</span>
-                </div> 
-              </div>
-            </div>
-            <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-1'>
-              <div>
-                <span className='text-white text-[11px]'>Income Scource</span>
-                <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-5'>
-                  <div className='flex justify-between text-white text-xs'>
-                    <span>Salary</span>
-                    <span>$ 12,000</span>
-                  </div>
-                </div>
-                <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-5'>
-                  <div className='flex justify-between text-white text-xs'>
-                    <span>Salary</span>
-                    <span>$ 12,000</span>
-                  </div>
-                </div>
-                <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-5'>
-                  <div className='flex justify-between text-white text-xs'>
-                    <span>Salary</span>
-                    <span>$ 12,000</span>
-                  </div>
-                </div>
-                <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-5'>
-                  <div className='flex justify-between text-white text-xs'>
-                    <span>Salary</span>
-                    <span>$ 12,000</span>
-                  </div>
-                </div>
-                <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-5'>
-                  <div className='flex justify-between text-white text-xs'>
-                    <span>Salary</span>
-                    <span>$ 12,000</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-              
-          </div>
-        </div>
-
-
-
-        <div>
-          <div className='w-80 bg-red-400/18 px-2 py-5 border rounded-lg mt-10 shadow-md 
-                    transition-all duration-300 
-                    hover:shadow-xl hover:scale-105'>
-            <div>
-              <div className='flex justify-between items-center'>
-                <div >
-                  <div>
-                  <span className='text-white'>Expense</span>
-                  </div>
-                  <div>
-                  <span className='text-xs text-white'>This Month</span>
-                  </div>
-                </div>
-                <div>
-                  <span className='text-white text-base'>$ 85,000</span>
-                </div> 
-              </div>
-            </div>
-            <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-1 '>
-              <div>
-                <span className='text-white text-[11px]'>Expenses</span>
-                <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-5'>
-                  <div className='flex justify-between text-white text-xs'>
-                    <span>Food & Drink</span>
-                    <span>$ 12,000</span>
-                  </div>
-                </div>
-                <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-5'>
-                  <div className='flex justify-between text-white text-xs'>
-                    <span>Transportation</span>
-                    <span>$ 12,000</span>
-                  </div>
-                </div>
-                <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-5'>
-                  <div className='flex justify-between text-white text-xs'>
-                    <span>housing</span>
-                    <span>$ 12,000</span>
-                  </div>
-                </div>
-                <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-5'>
-                  <div className='flex justify-between text-white text-xs'>
-                    <span>Bills & Utilities</span>
-                    <span>$ 12,000</span>
-                  </div>
-                </div>
-                <div className='w-full bg-light-100/2 px-2 py-2 border rounded-lg mt-5'>
-                  <div className='flex justify-between text-white text-xs'>
-                    <span>Health & Medical</span>
-                    <span>$ 12,000</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-              
-          </div>
-        </div>
-        <div>
-          <div className='w-160 bg-light-100/8 px-2 py-5 border rounded-lg mt-10  justify-center'>
            <div >
             <span className='text-white flex justify-center '>Analytics</span>
            </div>
-           <div className='shadow-md 
-                    transition-all duration-300 
-                    hover:shadow-xl hover:scale-105'><PiChart/></div>            
+           <div className=''><PiChart totalIncome = {totalIncome} totalExpense ={totalExpense}  /></div>            
           </div>
         </div>
 

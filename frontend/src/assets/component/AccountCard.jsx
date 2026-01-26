@@ -1,25 +1,27 @@
 import React, { useState } from "react";
 
-const AccountCard = () => {
+const AccountCard = ({mainAccountBalance,totalSalary,totalInvestment,totalBusinessIncome,totalFoodandDrink,totalHousing,totalTransportation}) => {
   const [activeTab, setActiveTab] = useState("income");
+  const [loading,setLoading] = useState(true);
+
+    
 
   // ---------------- HARD CODED DATA ----------------
-  const incomeData = [
-    { id: 1, category: "Salary/Wages", amount: 5000 },
-    { id: 2, category: "Freelancing", amount: 1200 },
-    { id: 3, category: "Investments", amount: 800 },
-  ];
-
   const expenseData = [
-    { id: 1, category: "Food & Drink", amount: 450 },
-    { id: 2, category: "Rent", amount: 1500 },
-    { id: 3, category: "Transport", amount: 300 },
+    { id: 1, category: "Food & Drink", amount: totalFoodandDrink },
+    { id: 2, category: "Rent", amount: totalHousing },
+    { id: 3, category: "Transport", amount: totalTransportation },
+  ];
+  const incomeData = [
+    { id: 1, category: "Salary/Wadges", amount: totalSalary },
+    { id: 2, category: "Investment", amount: totalInvestment },
+    { id: 3, category: "Business Income", amount: totalBusinessIncome },
   ];
 
   // ---------------- CALCULATIONS ----------------
   const totalIncome = incomeData.reduce((sum, item) => sum + item.amount, 0);
   const totalExpense = expenseData.reduce((sum, item) => sum + item.amount, 0);
-  const mainBalance = totalIncome - totalExpense;
+  const mainBalance = mainAccountBalance;
 
   const activeData = activeTab === "income" ? incomeData : expenseData;
 

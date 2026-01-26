@@ -54,3 +54,20 @@ export const updateIncome = async (id, incomeData) => {
 export const deleteIncome = async (id) => {
   await apiClient.delete(`${INCOME_ENDPOINT}/${id}`);
 };
+
+export const fetchIncomeSummary = async () => {
+  const token = localStorage.getItem("token"); // Firebase token
+
+  const response = await fetch("http://localhost:8000/income/summary", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch income summary");
+  }
+
+  return response.json();
+};
+

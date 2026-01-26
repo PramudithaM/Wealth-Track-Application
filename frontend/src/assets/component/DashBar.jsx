@@ -18,7 +18,7 @@ const DashBar = () => {
 };
 
   return (
-    <div className="w-full bg-light-100/5 max-w-full h-17 flex items-center justify-between pl-10">
+    <div className="w-full bg-dark-100/30 max-w-full h-17 flex items-center justify-between pl-10">
       <div className="flex  items-center gap-[1px]">
         <img src="/logo.png" alt="Logo" className="flex w-9 h-9 rounded-full item-start" />
         <span className="flex text-lg font-semibold text-white ml-">Budget App</span>

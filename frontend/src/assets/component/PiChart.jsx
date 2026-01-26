@@ -8,18 +8,19 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { name: "Income", value: 400000 },
-  { name: "Expenses", value: 30000 },
- 
-];
+
 
 
 const COLORS = ["#2f00ffff", "#ff0000ff", "#f97316", "#ef4444"];
 
-const PiChart = () => {
+const PiChart = ({totalIncome,totalExpense}) => {
+  const data = [
+  { name: "Income", value: totalIncome },
+  { name: "Expenses", value: totalExpense },
+ 
+];
   return (
-    <div className="w-full h-85  rounded-xl shadow ">
+    <div className="w-full h-85   ">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
