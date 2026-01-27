@@ -11,7 +11,7 @@ const CalanderDate = ({ value, onChange }) => {
       {/* Input Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="w-full px-4 py-2 text-left border rounded-lg bg-light-100/5 hover:border-blue-500 focus:outline-none"
+        className="w-full px-4 py-2 text-left border border-slate-700 rounded-lg bg-light-100/5 hover:border-blue-500 focus:outline-none"
       >
         {value || "Select date"}
       </button>

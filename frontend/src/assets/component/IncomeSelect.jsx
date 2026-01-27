@@ -27,7 +27,7 @@ const IncomeSelect = ({ value, onChange }) => {
           onClick={() => setIsOpen(!isOpen)}
           className="w-full flex items-center justify-between px-5 py-4 bg-light-100/5 border border-slate-700 rounded-xl hover:border-indigo-500 transition"
         >
-          <span>{value || "Choose Your Income Source"}</span>
+          <span className='text-sm'>{value || "Choose Your Income Source"}</span>
           <span
             className={`transition-transform duration-300 ${
               isOpen ? "rotate-180" : ""

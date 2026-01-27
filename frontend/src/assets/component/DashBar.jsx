@@ -18,10 +18,10 @@ const DashBar = () => {
 };
 
   return (
-    <div className="w-full bg-dark-100/30 max-w-full h-17 flex items-center justify-between pl-10">
+    <div className="w-full bg-dark-100/30 max-w-full h-15 flex items-center justify-between px-5 ">
       <div className="flex  items-center gap-[1px]">
         <img src="/logo.png" alt="Logo" className="flex w-9 h-9 rounded-full item-start" />
-        <span className="flex text-lg font-semibold text-white ml-">Budget App</span>
+        <span className="flex text-lg font-semibold text-white ml-3">Capital sync</span>
       </div>
       <div className="flex justify-center gap-30 ml-30">
         <span onClick={() => navigate("/home-page")}className="text-light-200 
@@ -63,7 +63,7 @@ const DashBar = () => {
           <div>
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md 
+              className="px-3 py-1 bg-gray-500/28 text-white text-sm rounded-lg shadow-md 
                     transition-all duration-300 
                     hover:shadow-xl hover:scale-105">
               Logout

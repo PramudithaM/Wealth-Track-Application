@@ -33,10 +33,10 @@ const AccountCard = ({mainAccountBalance,totalSalary,totalInvestment,totalBusine
       
       {/* Balance */}
       <div className="text-center">
-        <p className="text-gray-500 font-medium">
+        <p className="text-gray-500 font-medium text-2xl">
           Main Account Balance
         </p>
-        <h1 className="text-3xl font-bold mt-1">
+        <h1 className="text-3xl font-bold mt-0 p-0">
           ${mainBalance}
         </h1>
       </div>
@@ -48,7 +48,7 @@ const AccountCard = ({mainAccountBalance,totalSalary,totalInvestment,totalBusine
           className={`flex-1 py-2 rounded-md font-semibold transition ${
             activeTab === "income"
               ? "bg-green-500 text-white"
-              : "text-red"
+              : "text-green-500"
           }`}
         >
           Income
@@ -59,7 +59,7 @@ const AccountCard = ({mainAccountBalance,totalSalary,totalInvestment,totalBusine
           className={`flex-1 py-2 rounded-md font-semibold transition ${
             activeTab === "expense"
               ? "bg-red-500 text-white"
-              : "text-red"
+              : "text-red-500"
           }`}
         >
           Expenses
@@ -81,10 +81,14 @@ const AccountCard = ({mainAccountBalance,totalSalary,totalInvestment,totalBusine
         {activeData.map((item) => (
           <div
             key={item.id}
-            className="flex justify-between items-center bg-gray-50 px-4 py-2 rounded-md"
+            className="flex justify-between items-center bg-gray-400/18 px-4 py-2 rounded-md"
           >
-            <span className="text-gray-700">{item.category}</span>
-            <span className="font-semibold">${item.amount}</span>
+            <span className={`${activeTab === "expense"
+              ? "text-red-500"
+              : "text-green-500"}`}>{item.category}</span>
+            <span className={`${activeTab === "expense"
+              ? "text-red-500"
+              : "text-green-500"}`}>${item.amount}</span>
           </div>
         ))}
       </div>

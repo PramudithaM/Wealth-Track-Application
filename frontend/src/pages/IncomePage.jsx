@@ -68,10 +68,10 @@ const IncomePage = () => {
     <div className='pattern'>
         <DashBar/>
         <div className='wrapper  flex items-center justify-center'>
-            <header>
+            <header className='border border-slate-700 rounded-2xl p-4'>
                 <h1>Add Income</h1>
-                <p className='text-center font-[var(--font-poppins)] text-white text-white'>Track your earnings and income sources</p>
-                <div className='w-125 bg-dark-100 p-5 rounded-2xl shadow-inner shadow-light-100/10 mt-4'>
+                <p className='text-center text-white text-white'>Track your earnings and income sources</p>
+                <div className='w-125 bg-gray-400/18  p-5 rounded-2xl  shadow-light-100/10 mt-4'>
                     <div>
                         <IncomeDetails text = "Title"/>
                     <Description addDescription = {addDescription} setAddDescription = {setAddDescription} />

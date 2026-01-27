@@ -7,7 +7,7 @@ const Description = ({addDescription,setAddDescription}) => {
             <input type='text' 
             placeholder='Add Description' 
             value={addDescription} 
-            onChange={(e) => setAddDescription(e.target.value)}/>
+            onChange={(e) => setAddDescription(e.target.value)} className='text-sm'/>
         </div>
     </div>
   )

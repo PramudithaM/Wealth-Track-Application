@@ -73,10 +73,10 @@ const ExpensesPage = () => {
     <div className='pattern'>
         <DashBar/>
         <div className='wrapper  flex items-center justify-center'>
-            <header>
+            <header className='border border-slate-700 rounded-2xl p-4'>
                 <h1>Add Expenses</h1>
-                <p className='text-center  text-white text-white'>Track your expenses and  sources</p>
-                <div className='w-125 bg-dark-100 p-5 rounded-2xl shadow-inner shadow-light-100/10 mt-3'>
+                <p className='text-center text-white text-white'>Track your expenses and  sources</p>
+                <div className='w-125 bg-gray-400/18  p-5 rounded-2xl  shadow-light-100/10 mt-4'>
                     <div>
                         <ExpenseDetails text= "Title" />
                     <ExpenseTitle title={title} setTitle={setTitle} />

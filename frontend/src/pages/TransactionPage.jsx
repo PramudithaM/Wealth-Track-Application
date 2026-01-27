@@ -44,6 +44,9 @@ const TransactionPage = () => {
     return <span className={color}>{prefix}${parseFloat(amount).toFixed(2)}</span>;
   };
 
+  // for dashbord
+  
+
   return (
     <div className='pattern '>
         <DashBar/>

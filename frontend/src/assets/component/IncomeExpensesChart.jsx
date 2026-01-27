@@ -9,7 +9,7 @@ import { BarChart,
  } from 'recharts'
 
 const IncomeExpensesChart = ({ data }) => {
-  const chartData = Array.isArray(data) && data.length ? data : []
+  const chartData = Array.isArray(data) && data.length ? data : [];
   
 
   return (

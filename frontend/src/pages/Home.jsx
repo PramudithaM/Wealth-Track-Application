@@ -150,21 +150,19 @@ const totalTransportation = getTotalByCategory(expenses, "Transportation")
     // split transactions
 const transactionincomes = transactions.filter(t => t.type === 'income');
 const transactionexpenses = transactions.filter(t => t.type === 'expense');
+//Newest transaction first
+const sortByLatest = (a, b) =>
+  new Date(b.created_at) - new Date(a.created_at);
+//Latest 5
+const latestIncomes = incomes
+  .sort(sortByLatest)
+  .slice(0, 5);
 
-// totals
-const totaltransactionIncome = transactionincomes.reduce(
-  (sum, t) => sum + Number(t.amount || 0),
-  0
-);
+const latestExpenses = expenses
+  .sort(sortByLatest)
+  .slice(0, 5);
 
-const totaltransactionExpense = transactionexpenses.reduce(
-  (sum, t) => sum + Number(t.amount || 0),
-  0
-);
 
-// latest 5 transactions
-const latestIncome = incomes.slice(0, 5);
-const latestExpense = expenses.slice(0, 5);
 
 
   return (
@@ -180,16 +178,18 @@ const latestExpense = expenses.slice(0, 5);
             </div>
         </div>
         <div className='w-full flex justify-between gap-13'>
-          <div>
-          <LatesFiveIncomes transactionincomes = {transactionincomes} transactionexpenses = {transactionexpenses} />
-        </div>
-        <LatestFiveExpenses />
+          
+          <LatesFiveIncomes  latestIncomes = {latestIncomes} totalIncome = {totalIncome} />
+        
+        
+          <LatestFiveExpenses latestExpenses = {latestExpenses} totalExpense = {totalExpense} />
+        
         <div>
           <div className='w-160 bg-dark-100/20 px-2 py-5  rounded-lg mt-10  justify-center shadow-md 
                     transition-all duration-300 
                     hover:shadow-xl hover:scale-105'>
-           <div >
-            <span className='text-white flex justify-center '>Analytics</span>
+           <div className='px-3'>
+            <span className='text-white  text-2xl font-bold '>Analytics</span>
            </div>
            <div className=''><PiChart totalIncome = {totalIncome} totalExpense ={totalExpense}  /></div>            
           </div>
