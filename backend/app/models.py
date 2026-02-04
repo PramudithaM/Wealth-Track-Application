@@ -48,3 +48,15 @@ class Expense(Base):
     # description = Column(String)
     # date = Column(DateTime(timezone=True), server_default=func.now())
     # created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    class Goal(Base):
+    __tablename__ = "goals"
+    
+    id = Column(String, primary_key=True, index=True)
+    user_id = Column(String, nullable=False, index=True)
+    goal_type = Column(String(50), nullable=False)  # "income" or "expense"
+    category = Column(String(100), nullable=True)  # Optional: specific category
+    target_amount = Column(Numeric(10, 2), nullable=False)
+    month = Column(String(7), nullable=False)  # Format: "YYYY-MM" (e.g., "2024-12")
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
