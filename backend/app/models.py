@@ -50,7 +50,7 @@ class Expense(Base):
     # created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     class Goal(Base):
-    __tablename__ = "goals"
+        __tablename__ = "goals"
     
     id = Column(String, primary_key=True, index=True)
     user_id = Column(String, nullable=False, index=True)
