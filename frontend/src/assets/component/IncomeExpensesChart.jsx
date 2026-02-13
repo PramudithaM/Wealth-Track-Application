@@ -11,6 +11,18 @@ import { BarChart,
 const IncomeExpensesChart = ({ data }) => {
   const chartData = Array.isArray(data) && data.length ? data : [];
   
+   const CustomTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white text-black px-3 py-2 rounded shadow-md text-sm">
+        <span className="font-semibold">
+          {payload[0].name} : ${payload[0].value}
+        </span>
+      </div>
+    );
+  }
+  return null;
+};
 
   return (
     <div className='w-[850px] h-[380px] border  rounded-xl shadow-md 
@@ -24,11 +36,12 @@ const IncomeExpensesChart = ({ data }) => {
             <BarChart data={chartData}>
                 <XAxis dataKey='month'/>
                 <YAxis />
-                <Tooltip/>
+                <Tooltip content={<CustomTooltip />} />
+
                 <Legend/>
 
-                <Bar dataKey="income" fill="#2f00ffff" radius={[4,4,0,0]} />
-                <Bar dataKey="expenses" fill="#ff0000ff" radius={[4,4,0,0]} />
+                <Bar dataKey="income" fill="#489BAE" radius={[4,4,0,0]} />
+                <Bar dataKey="expenses" fill="#D0312D" radius={[4,4,0,0]} />
             </BarChart>
         </ResponsiveContainer>
     </div>

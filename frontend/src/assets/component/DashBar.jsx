@@ -48,15 +48,15 @@ const DashBar = () => {
         
           
           <div className="flex justify-center items-center gap-3">
-            <img src="/logo.png" alt="Profile" className="w-8 h-8 rounded-full" />
+            {/* <img src="/logo.png" alt="Profile" className="w-8 h-8 rounded-full" /> */}
             <div className="relative cursor-pointer mr-15">
-                <span className="text-xl">🔔</span>
-            <span
+                {/* <span className="text-xl">🔔</span> */}
+            {/* <span
               className="absolute -top-1 -right-1 bg-red-500 text-xs w-4 h-4 
                        rounded-full flex items-center justify-center text-white"
             >
               3
-            </span>
+            </span> */}
             </div>
             
           </div>

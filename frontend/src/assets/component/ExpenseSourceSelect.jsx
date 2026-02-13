@@ -9,7 +9,7 @@ const ExpenseSourceSelect = ({ value, onChange }) => {
 
     const options = [
     { id: 1, label: "Cash"},
-    { id: 2, label: "Bank" },
+    // { id: 2, label: "Bank" },
   ];
 
     const handleSelect = (option) => {

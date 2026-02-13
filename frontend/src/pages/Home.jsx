@@ -15,19 +15,13 @@ import PiChart from '../assets/component/PiChart';
 import HoverCard from '../assets/component/HoverCard';
 import { getAllIncomes } from '../services/incomeService'
 import { getAllExpenses } from '../services/expenseService'
+import { getAllTransactions } from '../services/transactionService';
 import { auth } from '../firebase'
 import AccountCard from '../assets/component/AccountCard';
 import LatesFiveIncomes from '../assets/component/LatesFiveIncomes';
 import LatestFiveExpenses from '../assets/component/LatestFiveExpenses';
 
-const data = [
-  { month: "Jan", income: 4000, expenses: 2500 },
-  { month: "Feb", income: 3000, expenses: 2000 },
-  { month: "Mar", income: 5000, expenses: 3500 },
-  { month: "Apr", income: 4200, expenses: 3000 },
-  { month: "May", income: 6100, expenses: 4000 },
-  { month: "June", income: 21000, expenses: 10000},
-];
+
 
 
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -69,6 +63,17 @@ const Home = () => {
     return () => unsub()
   }, []);
 
+  // fix bar chart
+  const currentYear = new Date().getFullYear()
+const [selectedYear, setSelectedYear] = useState(currentYear)
+
+const filterByYear = (items, year) =>
+  items.filter(it => {
+    const d = new Date(it.date)
+    return d.getFullYear() === year
+  })
+
+
   const getTotalByCategory = (data, category) => {
   return data
     .filter(item => item.category === category)
@@ -92,20 +97,95 @@ const totalTransportation = getTotalByCategory(expenses, "Transportation")
   const mainAccountBalance = totalIncome-totalExpense
   
 
+  // const aggregateByMonth = (items) => {
+  //   const months = Array(12).fill(0)
+  //   items.forEach((it) => {
+  //     const d = it.date ? new Date(it.date) : null
+  //     const m = d instanceof Date && !isNaN(d) ? d.getMonth() : null
+  //     if (m !== null) months[m] += Number(it.amount || 0)
+  //   })
+  //   return months
+  // }
   const aggregateByMonth = (items) => {
-    const months = Array(12).fill(0)
-    items.forEach((it) => {
-      const d = it.date ? new Date(it.date) : null
-      const m = d instanceof Date && !isNaN(d) ? d.getMonth() : null
-      if (m !== null) months[m] += Number(it.amount || 0)
-    })
-    return months
+  const months = Array(12).fill(0)
+
+  items.forEach(it => {
+    const d = new Date(it.date)
+    if (!isNaN(d)) {
+      const month = d.getMonth()
+      months[month] += Number(it.amount || 0)
+    }
+  })
+
+  return months
+}
+
+
+  // const incMonths = aggregateByMonth(incomes)
+  // const expMonths = aggregateByMonth(expenses)
+
+// Replace the chartData generation section with this:
+
+const getLast6MonthsData = () => {
+  const now = new Date();
+  const last6Months = [];
+  
+  // Generate last 6 months
+  for (let i = 5; i >= 0; i--) {
+    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    last6Months.push({
+      month: monthNames[date.getMonth()],
+      year: date.getFullYear(),
+      monthIndex: date.getMonth(),
+      income: 0,
+      expenses: 0
+    });
   }
+  
+  // Aggregate incomes for last 6 months
+  incomes.forEach((item) => {
+    const d = item.date ? new Date(item.date) : null;
+    if (d instanceof Date && !isNaN(d)) {
+      const itemMonth = d.getMonth();
+      const itemYear = d.getFullYear();
+      
+      const monthData = last6Months.find(
+        m => m.monthIndex === itemMonth && m.year === itemYear
+      );
+      
+      if (monthData) {
+        monthData.income += Number(item.amount || 0);
+      }
+    }
+  });
+  
+  // Aggregate expenses for last 6 months
+  expenses.forEach((item) => {
+    const d = item.date ? new Date(item.date) : null;
+    if (d instanceof Date && !isNaN(d)) {
+      const itemMonth = d.getMonth();
+      const itemYear = d.getFullYear();
+      
+      const monthData = last6Months.find(
+        m => m.monthIndex === itemMonth && m.year === itemYear
+      );
+      
+      if (monthData) {
+        monthData.expenses += Number(item.amount || 0);
+      }
+    }
+  });
+  
+  // Format for chart (show month and year if spans multiple years)
+  return last6Months.map(m => ({
+    month: m.year === now.getFullYear() ? m.month : `${m.month} ${m.year}`,
+    income: m.income,
+    expenses: m.expenses
+  }));
+};
 
-  const incMonths = aggregateByMonth(incomes)
-  const expMonths = aggregateByMonth(expenses)
+const chartData = getLast6MonthsData();
 
-  const chartData = monthNames.map((m, idx) => ({ month: m, income: incMonths[idx], expenses: expMonths[idx] }))
 
   //Transaction History
   const [transactions, setTransactions] = useState([]);
